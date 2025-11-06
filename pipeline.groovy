@@ -52,6 +52,14 @@ pipeline {
                 // sh '/opt/maven/bin/mvn sonar:sonar  -Dsonar.projectKey=studentapp -Dsonar.host.url=http://172.31.22.154:9000 -Dsonar.login=05d72f8340ad25c99e810ea637aa4eb0f7c87745'
             }
         }
+         stage('Quality-gate') {
+            steps {
+                timeout(10) {
+               
+            }
+                waitForQualityGate true
+            }
+        }
         stage('Deploy') {
             steps {
                 echo "deploy-sucess"
