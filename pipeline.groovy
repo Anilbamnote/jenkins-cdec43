@@ -52,22 +52,22 @@ pipeline {
                 // sh '/opt/maven/bin/mvn sonar:sonar  -Dsonar.projectKey=studentapp -Dsonar.host.url=http://172.31.22.154:9000 -Dsonar.login=05d72f8340ad25c99e810ea637aa4eb0f7c87745'
             }
         }
-         stage('Quality-gate') {
-            steps {
-                timeout(10) {
+        //  stage('Quality-gate') {
+        //     steps {
+        //         timeout(10) {
                
-            }
-                waitForQualityGate true
-            }
-        }
-        stage('S3-Artifactory') {
-            steps {
-                sh 'aws s3 cp target/studentapp-2.2-SNAPSHOT.war  s3://new-terr-buck-atrifatory097'
-            }
-        }
+        //     }
+        //         waitForQualityGate true
+        //     }
+        // }
+        // stage('S3-Artifactory') {
+        //     steps {
+        //         sh 'aws s3 cp target/studentapp-2.2-SNAPSHOT.war  s3://new-terr-buck-atrifatory097'
+        //     }
+        // }
         stage('Deploy') {
             steps {
-                echo "deploy-sucess"
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcat-cred', path: '', url: 'http://18.218.67.50:8080')], contextPath: '/', war: '**/*.war'
             }
         }
     }
